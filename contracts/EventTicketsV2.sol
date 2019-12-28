@@ -70,9 +70,7 @@ contract EventTicketsV2 {
             - return the event's ID
     */
 
-    event addEventCalled();
     function addEvent(string memory description, string memory URL, uint tickets) public onlyOwner returns (uint currEventId) {
-        emit addEventCalled();
 
         events[eventIdNumber] = Event({description: description, URL: URL, totalTickets: tickets, sales: 0, isOpen: true});
 
@@ -134,7 +132,7 @@ contract EventTicketsV2 {
         events[eventId].sales += tickets;
         emit LogBuyTickets(msg.sender, eventId, tickets);
 
-        if (msg.value >= events[eventId].totalTickets * PRICE_TICKET) {
+        if (msg.value >= tickets * PRICE_TICKET) {
             msg.sender.transfer(msg.value - (tickets * PRICE_TICKET));
         }
     }
