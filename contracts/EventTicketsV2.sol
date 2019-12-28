@@ -38,7 +38,7 @@ contract EventTicketsV2 {
         The mapping key is an integer, the value is an Event struct.
         Call the mapping "events".
     */
-    mapping(uint => Event) events;
+    mapping(uint => Event) public events;
 
     event LogEventAdded(string desc, string url, uint ticketsAvailable, uint eventId);
     event LogBuyTickets(address buyer, uint eventId, uint numTickets);
@@ -69,7 +69,11 @@ contract EventTicketsV2 {
             - emit the appropriate event
             - return the event's ID
     */
+
+    event addEventCalled();
     function addEvent(string memory description, string memory URL, uint tickets) public onlyOwner returns (uint currEventId) {
+        emit addEventCalled();
+
         events[eventIdNumber] = Event({description: description, URL: URL, totalTickets: tickets, sales: 0, isOpen: true});
 
         uint currentEventId = eventIdNumber;
